@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Reports">
+   <children>
+      <Pane prefHeight="174.0" prefWidth="1200.0" style="-fx-border-color: #000000;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Appointment Totals by Month and Type">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="appMonthComboBox" layoutX="328.0" layoutY="102.0" onAction="#onPickMonth" prefWidth="150.0" promptText="Month" />
+            <ComboBox fx:id="appTypeComboBox" layoutX="499.0" layoutY="102.0" onAction="#onPickType" prefWidth="150.0" promptText="Type" />
+            <TextField fx:id="totalAppTextField" editable="false" layoutX="709.0" layoutY="102.0" prefHeight="27.0" prefWidth="82.0" />
+            <Label layoutX="669.0" layoutY="106.0" text="Total:" />
+         </children></Pane>
+      <Pane layoutY="174.0" prefHeight="290.0" prefWidth="1200.0" style="-fx-border-color: #000000;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Appointments by Contact">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="contactsComboBox" layoutX="90.0" layoutY="97.0" onAction="#onChooseContact" prefWidth="150.0" promptText="Contact" />
+            <TableView fx:id="appByContactTableview" layoutX="306.0" layoutY="15.0" prefHeight="258.0" prefWidth="880.0">
+              <columns>
+                <TableColumn fx:id="appIdColumn" editable="false" prefWidth="110.0" text="Appointment ID" />
+                <TableColumn fx:id="titleColumn" editable="false" prefWidth="105.0" text="Title" />
+                  <TableColumn fx:id="typeColumn" editable="false" prefWidth="114.0" text="Type" />
+                  <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="141.0" text="Description" />
+                  <TableColumn fx:id="startTimeColumn" editable="false" prefWidth="161.0" text="Start" />
+                  <TableColumn fx:id="endTimeColumn" editable="false" prefWidth="160.0" text="End" />
+                  <TableColumn fx:id="customerIdColumn" editable="false" prefWidth="88.0" text="Customer ID" />
+              </columns>
+            </TableView>
+         </children></Pane>
+      <Pane layoutY="463.0" prefHeight="237.0" prefWidth="1200.0" style="-fx-border-color: #000000;">
+         <children>
+            <Button layoutX="1123.0" layoutY="190.0" mnemonicParsing="false" text="Back" />
+            <Label layoutX="13.0" layoutY="10.0" text="Appointment Totals per User">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="userComboBox" layoutX="337.0" layoutY="79.0" onAction="#onChooseUser" prefWidth="150.0" promptText="User" />
+            <ComboBox fx:id="userMonthComboBox" layoutX="512.0" layoutY="79.0" onAction="#onChooseUserMonth" prefWidth="150.0" promptText="Month" />
+            <TextField fx:id="totalAppByUserTextField" editable="false" layoutX="717.0" layoutY="79.0" prefHeight="27.0" prefWidth="82.0" />
+            <Label layoutX="675.0" layoutY="83.0" text="Total:" />
+         </children></Pane>
+   </children>
+</AnchorPane>
