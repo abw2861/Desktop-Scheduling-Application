@@ -2,3 +2,5 @@ Aug. 30, 2022 2:34:05 P.M. controller.LogInScreen logger
 INFO: Log-In Attempt -> Username: TEST || Date: 2022-AUGUST-30 || Time: 14:34 || Status: Unsuccessful
 Aug. 30, 2022 2:40:55 P.M. controller.LogInScreen logger
 INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-30 || Time: 18:40 UTC || Status: Unsuccessful
+Aug 30, 2022 2:10:03 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-30 || Time: 20:9 UTC || Status: Successful
