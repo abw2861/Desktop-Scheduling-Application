@@ -1,6 +1,7 @@
 package controller;
 
-import helper.Query;
+import Utility.Alerts;
+import Utility.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/** This is the Update Customer controller class. */
 public class UpdateCustomer implements Initializable {
     public TextField customerAddressField;
     public TextField customerPhoneField;
@@ -34,9 +36,12 @@ public class UpdateCustomer implements Initializable {
 
     public Customer customerToUpdate;
 
-    private ObservableList<Country> countryList = FXCollections.observableArrayList();
-    private ObservableList<Division> divisionList = FXCollections.observableArrayList();
+    public ObservableList<Country> countryList = FXCollections.observableArrayList();
+    public ObservableList<Division> divisionsList = FXCollections.observableArrayList();
 
+    /** This method gets the selected customer from the Customer Records form and populates the fields with the data.
+      @param customerToUpdate The selected customer.
+      */
     public void setCustomerToUpdate(Customer customerToUpdate) throws SQLException {
 
         this.customerToUpdate = customerToUpdate;
@@ -50,38 +55,52 @@ public class UpdateCustomer implements Initializable {
         divisionComboBox.setValue(customerToUpdate.getCustomerDivision());
         countryComboBox.setValue(customerToUpdate.getCustomerDivision().getCountry());
 
+        int countryIdTest = customerToUpdate.getCustomerDivision().getCountry().getCountryId();
+        divisionsList = Query.getDivisions(countryIdTest);
+        divisionComboBox.setItems(divisionsList);
     }
 
+    /** This method populates the divisions' combo box when a country is selected.
+     The user is only able to select divisions that are available for the selected country.
+     @param actionEvent A country is selected.
+      */
     public void onSelectCountry(ActionEvent actionEvent) throws SQLException {
-        int countryId;
-        if (countryComboBox.getSelectionModel().getSelectedItem() == null) {
-            divisionComboBox.setItems(null);
-        }
-        else if (countryComboBox.getSelectionModel().getSelectedItem() != null){
-            countryId = countryComboBox.getSelectionModel().getSelectedItem().getCountryId();
+            int countryIdTest = customerToUpdate.getCustomerDivision().getCountry().getCountryId();
+            int countryId = countryComboBox.getSelectionModel().getSelectedItem().getCountryId();
+            divisionComboBox.setValue(null);
             divisionComboBox.setItems(Query.getDivisions(countryId));
+            System.out.println(countryIdTest);
+    }
+
+    /** This method will update a customer record in the database and then redirect user back to Customer Records form.
+      @param actionEvent The save button is clicked.
+      */
+    public void onSave(ActionEvent actionEvent) throws IOException, SQLException {
+        try {
+            customerToUpdate.setCustomerName(customerNameField.getText());
+            customerToUpdate.setAddress(customerAddressField.getText());
+            customerToUpdate.setPostalCode(customerPostalField.getText());
+            customerToUpdate.setPhone(customerPhoneField.getText());
+            customerToUpdate.setCustomerDivision(divisionComboBox.getSelectionModel().getSelectedItem());
+
+            Query.updateCustomer(customerToUpdate);
+
+            Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1200.0, 720.0);
+            stage.setTitle("Customer Records");
+            stage.setScene(scene);
+            stage.show();
+        } catch (NullPointerException e) {
+            Alerts.errorAlert("Fields cannot be left blank. ");
         }
     }
 
-    public void onSave(ActionEvent actionEvent) throws IOException, SQLException {
-        customerToUpdate.setCustomerName(customerNameField.getText());
-        customerToUpdate.setAddress(customerAddressField.getText());
-        customerToUpdate.setPostalCode(customerPostalField.getText());
-        customerToUpdate.setPhone(customerPhoneField.getText());
-        customerToUpdate.setCustomerDivision(divisionComboBox.getSelectionModel().getSelectedItem());
-
-        Query.updateCustomer(customerToUpdate);
-
-        Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200.0, 720.0);
-        stage.setTitle("Customer Records");
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    /** This method will cancel the update customer form and redirect user back to Customer Records form.
+     @param actionEvent The cancel button is clicked.
+     */
     public void onCancel(ActionEvent actionEvent) throws IOException {
-        Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
+        Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1200.0, 720.0);
         stage.setTitle("Customer Records");
@@ -89,6 +108,9 @@ public class UpdateCustomer implements Initializable {
         stage.show();
     }
 
+    /** This is the initialize method for the Update Customer form.
+     The list of countries and country combo box is populated.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

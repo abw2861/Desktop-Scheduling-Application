@@ -1,6 +1,7 @@
 package controller;
 
-import helper.Query;
+import Utility.Alerts;
+import Utility.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,9 +26,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 
+/** This is the Update Appointment controller class. */
 public class UpdateAppointment implements Initializable {
     public TextField titleField;
     public TextField descriptionField;
@@ -53,12 +54,16 @@ public class UpdateAppointment implements Initializable {
     public ObservableList<String> hours = FXCollections.observableArrayList();
     public ObservableList<String> minutes = FXCollections.observableArrayList();
 
-
+    /** This method gets the selected appointment from the Appointment Scheduler form and populates the fields with the appointment data.
+     @param appointmentToUpdate The selected appointment
+      */
     public void setAppointmentToUpdate(Appointment appointmentToUpdate) throws SQLException {
         customersList.addAll(Query.getCustomerRecords());
+        //Get appointment start time
         LocalDateTime startTime = appointmentToUpdate.getStartTime().toLocalDateTime();
-        String startHour = null;
-        String startMin = null;
+        String startHour;
+        String startMin;
+        //Adds a '0' to beginning of single digit numbers for readability
         if (startTime.getHour() <= 9) {
             startHour = "0" + startTime.getHour();
         } else {
@@ -69,9 +74,11 @@ public class UpdateAppointment implements Initializable {
         } else {
             startMin = Integer.toString(startTime.getMinute());
         }
+        //Get appointment end time
         LocalDateTime endTime = appointmentToUpdate.getEndTime().toLocalDateTime();
-        String endHour = null;
-        String endMin = null;
+        String endHour;
+        String endMin;
+        //Added readability for end times
         if (endTime.getHour() <= 9){
             endHour = "0" + endTime.getHour();
         } else {
@@ -82,10 +89,11 @@ public class UpdateAppointment implements Initializable {
         } else {
             endMin = Integer.toString(endTime.getMinute());
         }
+
         LocalDate date = startTime.toLocalDate();
 
         this.appointmentToUpdate = appointmentToUpdate;
-
+        //Populate fields with data
         datePicker.setValue(date);
 
         appIdField.setText(Integer.toString(appointmentToUpdate.getAppointmentId()));
@@ -107,89 +115,102 @@ public class UpdateAppointment implements Initializable {
         }
     }
 
+    /** This method will update an appointment in the database.
+     An existing appointment will be updated in the database. The appointment must be scheduled between 8am - 10pm EST. The appointment cannot overlap another appointment for the same customer. No field may be left blank.++
+     The appointment times are saved in the database in the UTC time zone.
+     @param actionEvent Save button is clicked.
+      */
     public void onSave(ActionEvent actionEvent) throws SQLException, IOException {
-        boolean hasSchedConflicts = false;
-        LocalDate localAppDate = datePicker.getValue();
+        try {
+            boolean hasSchedConflicts = false;
+            LocalDate localAppDate = datePicker.getValue();
 
-        LocalDateTime startDateTime = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), Integer.parseInt(startHourComboBox.getValue()), Integer.parseInt(startMinComboBox.getValue()));
-        LocalDateTime endDateTime = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), Integer.parseInt(endHourComboBox.getValue()), Integer.parseInt(endMinComboBox.getValue()));
+            //Create local date time from date picker and combo boxes
+            LocalDateTime startDateTime = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), Integer.parseInt(startHourComboBox.getValue()), Integer.parseInt(startMinComboBox.getValue()));
+            LocalDateTime endDateTime = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), Integer.parseInt(endHourComboBox.getValue()), Integer.parseInt(endMinComboBox.getValue()));
 
-        ZonedDateTime zonedStartDateTime = startDateTime.atZone(ZoneId.systemDefault());
-        ZonedDateTime zonedEndDateTime = endDateTime.atZone(ZoneId.systemDefault());
+            //Local date time to zoned system default
+            ZonedDateTime zonedStartDateTime = startDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zonedEndDateTime = endDateTime.atZone(ZoneId.systemDefault());
 
-        ZonedDateTime utcStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneOffset.UTC);
-        ZonedDateTime utcEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneOffset.UTC);
+            //System default to UTC time
+            ZonedDateTime utcStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneOffset.UTC);
+            ZonedDateTime utcEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneOffset.UTC);
 
-        ZonedDateTime estStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
-        ZonedDateTime estEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
+            //System default to EST time
+            ZonedDateTime estStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
+            ZonedDateTime estEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcStartDateTime));
-        Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcEndDateTime));
+            //Get timestamps in UTC
+            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcStartDateTime));
+            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcEndDateTime));
 
+            appointmentToUpdate.setAppDescription(descriptionField.getText());
+            appointmentToUpdate.setAppLocation(locationField.getText());
+            appointmentToUpdate.setAppTitle(titleField.getText());
+            appointmentToUpdate.setAppType(typeField.getText());
+            appointmentToUpdate.setCustomerId(customerComboBox.getSelectionModel().getSelectedItem().getCustomerId());
+            appointmentToUpdate.setUser(userComboBox.getSelectionModel().getSelectedItem());
+            appointmentToUpdate.setContact(contactComboBox.getSelectionModel().getSelectedItem());
+            appointmentToUpdate.setStartTime(startTimestamp);
+            appointmentToUpdate.setEndTime(endTimestamp);
 
-        appointmentToUpdate.setAppDescription(descriptionField.getText());
-        appointmentToUpdate.setAppLocation(locationField.getText());
-        appointmentToUpdate.setAppTitle(titleField.getText());
-        appointmentToUpdate.setAppType(typeField.getText());
-        appointmentToUpdate.setCustomerId(customerComboBox.getSelectionModel().getSelectedItem().getCustomerId());
-        appointmentToUpdate.setUser(userComboBox.getSelectionModel().getSelectedItem().getUserId());
-        appointmentToUpdate.setContact(contactComboBox.getSelectionModel().getSelectedItem());
-        appointmentToUpdate.setStartTime(startTimestamp);
-        appointmentToUpdate.setEndTime(endTimestamp);
+            //Check for scheduling conflicts - ignores appointment times for selected appointment
+            for (Appointment appointment : appointmentsList) {
+                if (appointment.getCustomerId() == customerComboBox.getSelectionModel().getSelectedItem().getCustomerId()) {
+                    if (appointment.getAppointmentId() != appointmentToUpdate.getAppointmentId()) {
 
+                        LocalDateTime localBeginA = appointment.getStartTime().toLocalDateTime();
+                        ZonedDateTime beginA = localBeginA.atZone(ZoneId.systemDefault());
+                        LocalDateTime localEndA = appointment.getEndTime().toLocalDateTime();
+                        ZonedDateTime endA = localEndA.atZone(ZoneId.systemDefault());
 
-        for (Appointment appointment: appointmentsList){
-            if (appointment.getCustomerId() == customerComboBox.getSelectionModel().getSelectedItem().getCustomerId()) {
-                if (appointment.getAppointmentId() != appointmentToUpdate.getAppointmentId()) {
-
-                    LocalDateTime localBeginA = appointment.getStartTime().toLocalDateTime();
-                    ZonedDateTime beginA = localBeginA.atZone(ZoneId.systemDefault());
-                    LocalDateTime localEndA = appointment.getEndTime().toLocalDateTime();
-                    ZonedDateTime endA = localEndA.atZone(ZoneId.systemDefault());
-
-                    if ((zonedStartDateTime.isAfter(beginA) || zonedStartDateTime.isEqual(beginA)) && (zonedStartDateTime.isBefore(endA))) {
-                        hasSchedConflicts = true;
-                    } else if ((zonedEndDateTime.isAfter(beginA)) && (zonedEndDateTime.isBefore(endA) || zonedEndDateTime.isEqual(endA))) {
-                        hasSchedConflicts = true;
-                    } else if ((zonedStartDateTime.isBefore(beginA) || zonedStartDateTime.isEqual(beginA)) && (zonedEndDateTime.isAfter(endA) || zonedEndDateTime.isEqual(endA))) {
-                        hasSchedConflicts = true;
+                        if ((zonedStartDateTime.isAfter(beginA) || zonedStartDateTime.isEqual(beginA)) && (zonedStartDateTime.isBefore(endA))) {
+                            hasSchedConflicts = true;
+                        } else if ((zonedEndDateTime.isAfter(beginA)) && (zonedEndDateTime.isBefore(endA) || zonedEndDateTime.isEqual(endA))) {
+                            hasSchedConflicts = true;
+                        } else if ((zonedStartDateTime.isBefore(beginA) || zonedStartDateTime.isEqual(beginA)) && (zonedEndDateTime.isAfter(endA) || zonedEndDateTime.isEqual(endA))) {
+                            hasSchedConflicts = true;
+                        }
                     }
                 }
             }
-        }
+            //Set business hours in EST 8am & 10pm
+            LocalDateTime estBusStart = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), 8, 0);
+            ZonedDateTime zoneEBS = estBusStart.atZone(ZoneId.of("America/New_York"));
+            LocalDateTime estBusEnd = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), 22, 0);
+            ZonedDateTime zoneEBE = estBusEnd.atZone(ZoneId.of("America/New_York"));
 
-        LocalDateTime estBusStart = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), 8, 0);
-        ZonedDateTime zoneEBS = estBusStart.atZone(ZoneId.of("America/New_York"));
-        LocalDateTime estBusEnd = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), 22, 0 );
-        ZonedDateTime zoneEBE = estBusEnd.atZone(ZoneId.of("America/New_York"));
+            //Logical checks for appointment overlap, business hours, start time before end time
+            if (estStartDateTime.isBefore(zoneEBS)) {
+                Alerts.errorAlert("Appointment cannot be scheduled before 8:00 AM EST.");
+            } else if (estEndDateTime.isAfter(zoneEBE)) {
+                Alerts.errorAlert("Appointment cannot end after 10:00 PM EST.");
+            } else if (zonedStartDateTime.isAfter(zonedEndDateTime) || zonedEndDateTime.isBefore(zonedStartDateTime) || zonedStartDateTime.isEqual(zonedEndDateTime)) {
+                Alerts.errorAlert("Start time must be before end time.");
+            } else if (hasSchedConflicts) {
+                Alerts.errorAlert("Unable to schedule. The desired time conflicts with an existing appointment.");
+            } else {
+                Query.updateAppointment(appointmentToUpdate);
 
-        if (estStartDateTime.isBefore(zoneEBS)) {
-            errorAlert("Appointment cannot be scheduled before 8:00 AM EST.");
+                Parent root = FXMLLoader.load(this.getClass().getResource("/view/AppointmentScheduler.fxml"));
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root, 1200, 700);
+                stage.setTitle("Appointments Scheduler");
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (NullPointerException e) {
+            Alerts.errorAlert("Fields cannot be left blank.");
         }
-        else if (estEndDateTime.isAfter(zoneEBE)){
-            errorAlert("Appointment cannot end after 10:00 PM EST.");
-        }
-        else if (zonedStartDateTime.isAfter(zonedEndDateTime) || zonedEndDateTime.isBefore(zonedStartDateTime) || zonedStartDateTime.isEqual(zonedEndDateTime)){
-            errorAlert("Start time must be before end time.");
-        }
-        else if (hasSchedConflicts) {
-            errorAlert("Unable to schedule. The desired time conflicts with an existing appointment.");
-        }
-        else {
-            Query.updateAppointment(appointmentToUpdate);
-
-            Parent root = FXMLLoader.load(this.getClass().getResource("/view/AppointmentScheduler.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 1200, 700);
-            stage.setTitle("Appointments Scheduler");
-            stage.setScene(scene);
-            stage.show();
-        }
-
     }
 
+    /** This method cancels the update appointment form.
+      The user will be redirected back to the appointment scheduler form.
+     @param actionEvent Cancel button is clicked.
+      */
     public void onCancel(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(this.getClass().getResource("/view/AppointmentScheduler.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -199,19 +220,14 @@ public class UpdateAppointment implements Initializable {
         stage.show();
     }
 
-    public static void errorAlert(String contentText) {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
+    /** This is the initialize method for the Update Appointment form.
+      The lists of users, contacts, appointments, time choices and their corresponding combo boxes will be populated.
+      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         hours.addAll("00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
                 "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
-        minutes.addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55");
+        minutes.addAll("00", "15", "30", "45");
         startHourComboBox.setItems(hours);
         startMinComboBox.setItems(minutes);
         endHourComboBox.setItems(hours);

@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordsScreen">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordsScreen">
    <children>
-      <TableView fx:id="customerTableview" layoutY="90.0" prefHeight="432.0" prefWidth="1200.0" style="-fx-background-color: #d9d4d4;">
+      <TableView fx:id="customerTableview" layoutX="33.0" layoutY="90.0" prefHeight="514.0" prefWidth="1128.0">
         <columns>
           <TableColumn fx:id="customerName" prefWidth="75.0" text="Name" />
           <TableColumn fx:id="customerAddress" prefWidth="75.0" text="Address" />
@@ -19,13 +19,13 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="14.0" layoutY="543.0" mnemonicParsing="false" onAction="#onAddCustomer" text="Add New Customer" />
-      <Button layoutX="159.0" layoutY="543.0" mnemonicParsing="false" onAction="#onUpdateCustomer" prefHeight="27.0" prefWidth="131.0" text="Update Customer" />
-      <Button layoutX="302.0" layoutY="543.0" mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="27.0" prefWidth="131.0" text="Delete Customer" />
-      <Button layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" onAction="#toViewAppointments" text="View Reports" />
-      <Button layoutX="1016.0" layoutY="23.0" mnemonicParsing="false" onAction="#toAppScheduler" prefHeight="37.0" prefWidth="164.0" text="Appointment Scheduler" />
-      <Button layoutX="1087.0" layoutY="631.0" mnemonicParsing="false" onAction="#toExit" prefHeight="27.0" prefWidth="56.0" text="Exit" />
-      <Label alignment="CENTER" layoutX="518.0" layoutY="28.0" prefHeight="27.0" prefWidth="164.0" text="Customers">
+      <Button fx:id="addCustomer" layoutX="47.0" layoutY="618.0" mnemonicParsing="false" text="Add New Customer" />
+      <Button layoutX="191.0" layoutY="618.0" mnemonicParsing="false" onAction="#onUpdateCustomer" prefHeight="27.0" prefWidth="131.0" text="Update Customer" />
+      <Button layoutX="329.0" layoutY="618.0" mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="27.0" prefWidth="131.0" text="Delete Customer" />
+      <Button fx:id="viewReportsButton" layoutX="1051.0" layoutY="618.0" mnemonicParsing="false" text="View Reports" />
+      <Button fx:id="appSchedulerButton" layoutX="988.0" layoutY="28.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="164.0" text="Appointment Scheduler" />
+      <Button fx:id="exitButton" layoutX="1070.0" layoutY="659.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" text="Exit" />
+      <Label alignment="CENTER" layoutX="501.0" layoutY="28.0" prefHeight="37.0" prefWidth="192.0" text="Customers">
          <font>
             <Font name="SansSerif Bold" size="21.0" />
          </font>

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Reports">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Reports">
    <children>
       <Pane prefHeight="174.0" prefWidth="1200.0" style="-fx-border-color: #000000;">
          <children>
@@ -40,7 +40,7 @@
          </children></Pane>
       <Pane layoutY="463.0" prefHeight="237.0" prefWidth="1200.0" style="-fx-border-color: #000000;">
          <children>
-            <Button layoutX="1123.0" layoutY="190.0" mnemonicParsing="false" text="Back" />
+            <Button layoutX="1123.0" layoutY="190.0" mnemonicParsing="false" onAction="#onBack" text="Back" />
             <Label layoutX="13.0" layoutY="10.0" text="Appointment Totals per User">
                <font>
                   <Font name="System Bold" size="21.0" />

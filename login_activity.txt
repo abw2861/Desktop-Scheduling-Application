@@ -4,3 +4,105 @@ Aug. 30, 2022 2:40:55 P.M. controller.LogInScreen logger
 INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-30 || Time: 18:40 UTC || Status: Unsuccessful
 Aug 30, 2022 2:10:03 PM controller.LogInScreen logger
 INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-30 || Time: 20:9 UTC || Status: Successful
+Aug. 31, 2022 11:37:32 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 15:37 UTC || Status: Successful
+Aug. 31, 2022 11:46:23 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 15:46 UTC || Status: Successful
+Aug. 31, 2022 11:51:14 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: admin || Date: 2022-AUGUST-31 || Time: 15:51 UTC || Status: Successful
+Aug. 31, 2022 11:54:19 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: TEST || Date: 2022-AUGUST-31 || Time: 15:54 UTC || Status: Successful
+Aug. 31, 2022 11:58:02 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 15:58 UTC || Status: Successful
+Aug. 31, 2022 11:58:46 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 15:58 UTC || Status: Successful
+Aug. 31, 2022 11:59:23 A.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 15:59 UTC || Status: Successful
+Aug. 31, 2022 12:00:56 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 16:0 UTC || Status: Successful
+Aug. 31, 2022 12:02:34 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 16:2 UTC || Status: Successful
+Aug. 31, 2022 12:03:18 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 16:3 UTC || Status: Successful
+Aug. 31, 2022 12:03:40 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 16:3 UTC || Status: Successful
+Aug. 31, 2022 1:02:36 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 17:2 UTC || Status: Successful
+Aug. 31, 2022 1:54:49 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 17:54 UTC || Status: Successful
+Aug. 31, 2022 1:55:56 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 17:55 UTC || Status: Successful
+Aug. 31, 2022 2:37:31 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 18:37 UTC || Status: Successful
+Aug. 31, 2022 2:38:38 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 18:38 UTC || Status: Successful
+Aug. 31, 2022 3:11:31 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:11 UTC || Status: Successful
+Aug. 31, 2022 3:13:35 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:13 UTC || Status: Successful
+Aug. 31, 2022 3:34:28 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:34 UTC || Status: Successful
+Aug. 31, 2022 3:35:02 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:35 UTC || Status: Successful
+Aug. 31, 2022 3:43:41 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:43 UTC || Status: Successful
+Aug. 31, 2022 3:44:55 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:44 UTC || Status: Successful
+Aug. 31, 2022 3:50:46 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:50 UTC || Status: Successful
+Aug. 31, 2022 3:53:11 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:53 UTC || Status: Successful
+Aug. 31, 2022 3:54:00 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:53 UTC || Status: Successful
+Aug. 31, 2022 3:55:52 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:55 UTC || Status: Successful
+Aug. 31, 2022 3:59:10 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 19:59 UTC || Status: Successful
+Aug. 31, 2022 4:04:32 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:4 UTC || Status: Successful
+Aug. 31, 2022 4:10:07 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:10 UTC || Status: Successful
+Aug. 31, 2022 4:10:45 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:10 UTC || Status: Successful
+Aug. 31, 2022 4:11:09 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:11 UTC || Status: Successful
+Aug. 31, 2022 4:29:18 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:29 UTC || Status: Successful
+Aug. 31, 2022 4:36:04 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:36 UTC || Status: Successful
+Aug. 31, 2022 4:39:12 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:39 UTC || Status: Successful
+Aug. 31, 2022 4:41:06 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:41 UTC || Status: Successful
+Aug. 31, 2022 4:50:40 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:50 UTC || Status: Successful
+Aug. 31, 2022 4:55:55 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:55 UTC || Status: Successful
+Aug. 31, 2022 4:57:56 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 20:57 UTC || Status: Successful
+Aug. 31, 2022 5:04:40 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-AUGUST-31 || Time: 21:4 UTC || Status: Successful
+sept. 04, 2022 3:34:59 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 19:34 UTC || Status: Unsuccessful
+sept. 04, 2022 3:35:05 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 19:35 UTC || Status: Unsuccessful
+sept. 04, 2022 3:35:08 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username:  || Date: 2022-SEPTEMBER-4 || Time: 19:35 UTC || Status: Unsuccessful
+sept. 04, 2022 3:35:20 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: admin || Date: 2022-SEPTEMBER-4 || Time: 19:35 UTC || Status: Unsuccessful
+sept. 04, 2022 3:40:18 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 19:40 UTC || Status: Successful
+sept. 04, 2022 3:41:09 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 19:41 UTC || Status: Successful
+sept. 04, 2022 4:02:22 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username:  || Date: 2022-SEPTEMBER-4 || Time: 20:2 UTC || Status: Unsuccessful
+sept. 04, 2022 4:02:24 PM controller.LogInScreen logger
+INFO: Log-In Attempt -> Username:  || Date: 2022-SEPTEMBER-4 || Time: 20:2 UTC || Status: Unsuccessful
+Sep. 04, 2022 4:27:34 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 20:27 UTC || Status: Successful
+Sep. 04, 2022 4:47:42 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 20:47 UTC || Status: Successful
+Sep. 04, 2022 5:20:10 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 21:20 UTC || Status: Successful
+Sep. 04, 2022 7:02:06 P.M. controller.LogInScreen logger
+INFO: Log-In Attempt -> Username: test || Date: 2022-SEPTEMBER-4 || Time: 23:2 UTC || Status: Successful

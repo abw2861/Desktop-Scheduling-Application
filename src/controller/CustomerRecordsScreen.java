@@ -1,6 +1,7 @@
 package controller;
 
-import helper.Query;
+import Utility.Alerts;
+import Utility.Query;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -11,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
@@ -25,6 +23,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/** This is the Customer Records controller class. */
 public class CustomerRecordsScreen implements Initializable {
 
     public TableColumn<Customer, String> customerName;
@@ -35,24 +34,23 @@ public class CustomerRecordsScreen implements Initializable {
     public TableColumn<Customer, String> customerCountry;
 
     public TableView<Customer> customerTableview;
+    public Button exitButton;
+    public Button addCustomer;
+    public Button viewReportsButton;
+    public Button appSchedulerButton;
 
-    ObservableList<Customer> customerList = FXCollections.observableArrayList();
-    ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
+    public ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    public ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
 
-    public void onAddCustomer(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(this.getClass().getResource("/view/AddCustomer.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 700);
-        stage.setTitle("Add Customer");
-        stage.setScene(scene);
-        stage.show();
-    }
-
+    /** This method selects a customer to modify and opens the Update Customer form.
+     If a customer is selected, the customer information will be sent to Update Customer form and the window will be loaded. If no customer is selected, an error dialog box will pop up.
+     @param actionEvent The update customer button is clicked.
+     */
     public void onUpdateCustomer(ActionEvent actionEvent) throws IOException, SQLException {
-        Customer selectedCustomer = (Customer) customerTableview.getSelectionModel().getSelectedItem();
+        Customer selectedCustomer = customerTableview.getSelectionModel().getSelectedItem();
 
         if (selectedCustomer == null) {
-            errorAlert("No customer selected.");
+            Alerts.errorAlert("No customer selected.");
         }
         else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateCustomer.fxml"));
@@ -70,13 +68,17 @@ public class CustomerRecordsScreen implements Initializable {
         }
     }
 
+    /** This method deletes a customer from the database.
+     A selected customer will be deleted from the database. If the customer has any appointments, all appointments will be deleted first. The user will be prompted with a confirmation box prior to deletion and an error box if no customer is selected.
+     @param actionEvent The delete button is clicked.
+     */
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
         Customer customer = customerTableview.getSelectionModel().getSelectedItem();
         appointmentsList.addAll(Query.getCustomerAppointments());
         boolean hasAppointments = false;
 
         if(customerTableview.getSelectionModel().getSelectedItem() == null) {
-            errorAlert("There is no customer selected.");
+            Alerts.errorAlert("There is no customer selected.");
         }
         else if (customerTableview.getSelectionModel().getSelectedItem() != null) {
             for (Appointment appointment : appointmentsList) {
@@ -90,11 +92,7 @@ public class CustomerRecordsScreen implements Initializable {
                 if (results.isPresent() && results.get() == ButtonType.YES) {
                     Query.deleteAppointment(customer.getCustomerId());
                     Query.deleteCustomer(customer.getCustomerId());
-                    Alert confirmAlert;
-                    confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmAlert.setTitle("Confirmation");
-                    confirmAlert.setContentText("Customer Record for '" + customer.getCustomerName() + "' has been deleted.");
-                    confirmAlert.showAndWait();
+                    Alerts.confirmationAlert("Customer Record for '" + customer.getCustomerName() + "' has been deleted.");
                 }
             }
             else {
@@ -102,12 +100,7 @@ public class CustomerRecordsScreen implements Initializable {
                 Optional<ButtonType> results = alert.showAndWait();
                 if (results.isPresent() && results.get() == ButtonType.YES) {
                     Query.deleteCustomer(customer.getCustomerId());
-
-                    Alert confirmAlert;
-                    confirmAlert = new Alert(Alert.AlertType.INFORMATION);
-                    confirmAlert.setTitle("Confirmation");
-                    confirmAlert.setContentText("Customer Record for '" + customer.getCustomerName() + "' has been deleted.");
-                    confirmAlert.showAndWait();
+                    Alerts.confirmationAlert("Customer Record for '" + customer.getCustomerName() + "' has been deleted.");
                 }
             }
             customerList.clear();
@@ -115,57 +108,61 @@ public class CustomerRecordsScreen implements Initializable {
         }
     }
 
-    public void toViewAppointments(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(this.getClass().getResource("/view/Reports.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 700);
-        stage.setTitle("Reports");
-        stage.setScene(scene);
-        stage.show();
+    /** This method will load a new stage.
+     @param actionEvent A button is clicked.
+     @param controllerView The name of the fxml view to be loaded.
+     @param title The desired title of the window.
+     */
+    public void loadPage (ActionEvent actionEvent, String controllerView, String title) {
+        try {
+            Parent root = FXMLLoader.load(this.getClass().getResource("/view/" + controllerView + ".fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1200, 700);
+            stage.setTitle(title);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public void toAppScheduler(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(this.getClass().getResource("/view/AppointmentScheduler.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1200, 700);
-        stage.setTitle("Appointments Scheduler");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public static void errorAlert(String contentText) {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
-
+    /** This is the initialize method for the Customer Records form.
+      The tableview is populated with list of customers. Simple button functionality is added.
+      <b> Lambda expression used to populate the data in the appropriate columns.
+      Lambda expression used to add button functionality to load new pages and exit the application. This helped to reduce the amount of redundant code and the need for an additional method creation.
+      </b>
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerName.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getCustomerName());});
-        customerAddress.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getAddress());});
-        customerPostal.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getPostalCode());});
-        customerPhone.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getPhone());});
-        customerDivision.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getCustomerDivision().getDivisionName());});
-        customerCountry.setCellValueFactory(cellData -> {return new ReadOnlyStringWrapper(cellData.getValue().getCustomerDivision().getCountry().getCountryName());});
+
+        customerName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCustomerName()));
+        customerAddress.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getAddress()));
+        customerPostal.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPostalCode()));
+        customerPhone.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPhone()));
+        customerDivision.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCustomerDivision().getDivisionName()));
+        customerCountry.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCustomerDivision().getCountry().getCountryName()));
+
+        exitButton.setOnAction(e -> Platform.exit());
+
+        addCustomer.setOnAction(event -> {
+            loadPage(event, "AddCustomer", "Add Customer");
+        });
+
+        viewReportsButton.setOnAction(event -> {
+            loadPage(event, "Reports", "Reports");
+        });
+
+        appSchedulerButton.setOnAction(event -> {
+            loadPage(event, "AppointmentScheduler", "AppointmentScheduler");
+        });
 
         try {
             customerList.addAll(Query.getCustomerRecords());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         customerTableview.setItems(customerList);
-
-
-    }
-
-
-    public void toExit(ActionEvent actionEvent) {
-        Platform.exit();
     }
 }
 

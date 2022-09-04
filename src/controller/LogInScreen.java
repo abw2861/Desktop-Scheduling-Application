@@ -1,7 +1,8 @@
 package controller;
 
-import helper.JDBC;
-import helper.Query;
+import Utility.Alerts;
+import Utility.JDBC;
+import Utility.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,14 +23,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-
+/** This is the Log-In form controller class. */
 public class LogInScreen implements Initializable {
 
     public Button logInButton;
@@ -43,12 +43,16 @@ public class LogInScreen implements Initializable {
 
     PreparedStatement preparedStatement = null;
 
-
+    /** This method validates that a username and password combo are correct.
+     If there is a username and password combination match in the database, the method will return true.
+     @param userName The username entered by user
+     @param password The password entered by user
+      */
     public boolean userValidation (String userName, String password) throws SQLException {
         try {
 
-            userName = usernameField.getText().toString();
-            password = passwordField.getText().toString();
+            userName = usernameField.getText();
+            password = passwordField.getText();
             String sql = "SELECT * FROM client_schedule.users WHERE User_Name=? and Password=?";
 
             preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -59,12 +63,16 @@ public class LogInScreen implements Initializable {
             if (resultSet.next()) {
                 return true;
             }
+
         } catch (SQLException e){
-            errorAlert("Error");
+            loginErrorAlert("Error");
         }
         return false;
     }
 
+    /** This method detects if the user that has logged in has an upcoming appointment within 15 minutes of logging in.
+     If the current user has an appointment within 15 minutes of logging in, the user will get an alert with the appointment information. If there is no upcoming appointment, the user will get a corresponding alert.
+     */
     public void upcomingApt () throws SQLException {
 
         String userName = usernameField.getText();
@@ -77,7 +85,7 @@ public class LogInScreen implements Initializable {
         LocalDateTime timeIn15Minutes = currentTime.plusMinutes(15);
 
         usersList.addAll(Query.getUsers());
-
+        //Check if user that logged in has an upcoming appointment within 15 minutes
         if (val) {
             for (User user : usersList) {
                 if (user.getUserName().equals(userName)) {
@@ -94,16 +102,20 @@ public class LogInScreen implements Initializable {
             }
 
             if (hasUpcomingAppointment){
-                appointmentAlert("You have an upcoming appointment: \n\nAppointment ID: " + upcomingAppId + "\n" + "Date: " + upcomingAppStart.getYear() + "-" + upcomingAppStart.getMonth() + "-" + upcomingAppStart.getDayOfMonth() +
+                Alerts.informationAlert("You have an upcoming appointment: \n\nAppointment ID: " + upcomingAppId + "\n" + "Date: " + upcomingAppStart.getYear() + "-" + upcomingAppStart.getMonth() + "-" + upcomingAppStart.getDayOfMonth() +
                 "\nTime: " + upcomingAppStart.getHour() + ":" + displayMinutes(upcomingAppStart));
             }
             else {
-                appointmentAlert("You have no upcoming appointments.");
+                Alerts.informationAlert("You have no upcoming appointments.");
             }
         }
     }
 
+    /** This method formats the display of the minutes in the 'minutes' combo box.
+     @param ldt The LocalDateTime of user system.
+     */
     public String displayMinutes (LocalDateTime ldt){
+        //Show single number minutes with a 0 in front, for readability
         if (ldt.getMinute() <= 9){
             return "0" + ldt.getMinute();
         }
@@ -112,29 +124,35 @@ public class LogInScreen implements Initializable {
         }
     }
 
+    /** This method allows user to log into application.
+     If the entered username and password is validated, access will be allowed and the Customer Record window will open. Upcoming appointment method will be called.
+     Error alerts for incorrect log-ins will show in French or English depending on user's language settings.
+     All log-in activity will be recorded in a .txt file.
+     @param actionEvent Log in button is clicked.
+     */
     public void onLogIn(ActionEvent actionEvent) throws IOException, SQLException {
             String userName = usernameField.getText();
             String password = passwordField.getText();
-            String successfulLogin = null;
+            String successfulLogin;
             LocalDateTime localDateTime = LocalDateTime.now();
             ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
             ZonedDateTime utcTime = zonedDateTime.withZoneSameInstant(ZoneOffset.UTC);
             boolean val = userValidation(userName, password);
 
             if (usernameField.getText().isEmpty() && passwordField.getText().isEmpty()) {
-                errorAlert("EmptyUsernameAndPassword");
+                loginErrorAlert("EmptyUsernameAndPassword");
                 successfulLogin = "Unsuccessful";
             } else if (usernameField.getText().isEmpty()) {
-                errorAlert("EmptyUsername");
+                loginErrorAlert("EmptyUsername");
                 successfulLogin = "Unsuccessful";
             } else if (passwordField.getText().isEmpty()) {
-                errorAlert("EmptyPassword");
+                loginErrorAlert("EmptyPassword");
                 successfulLogin = "Unsuccessful";
             } else if (!val) {
-                errorAlert("IncorrectUsernameOrPassword");
+                loginErrorAlert("IncorrectUsernameOrPassword");
                 successfulLogin = "Unsuccessful";
             } else {
-                Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
+                Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root, 1200.0, 720.0);
                 stage.setTitle("Customer Records");
@@ -146,10 +164,15 @@ public class LogInScreen implements Initializable {
                 upcomingApt();
 
             }
+            //Logger method called
             logger(userName, utcTime, successfulLogin);
-            //System.out.println("Log-In Attempt -> Username: " + userName + " || Date: " + localDateTime.getYear()+ "-" + localDateTime.getMonth() + "-" + localDateTime.getDayOfMonth() + " || Time: " + localDateTime.getHour() + ":" + localDateTime.getMinute() + " || Status: " + successfulLogin);
     }
 
+    /** This method creates the logger for log in activity.
+     @param userName The username entered
+     @param loginSuccess String output for successful or unsuccessful log in
+     @param zonedDateTime Time of log in attempt in UTC
+     */
     public void logger (String userName, ZonedDateTime zonedDateTime, String loginSuccess) {
         Logger log = Logger.getLogger("login_activity.txt");
 
@@ -166,7 +189,10 @@ public class LogInScreen implements Initializable {
         log.info("Log-In Attempt -> Username: " + userName + " || Date: " + zonedDateTime.getYear()+ "-" + zonedDateTime.getMonth() + "-" + zonedDateTime.getDayOfMonth() + " || Time: " + zonedDateTime.getHour() + ":" + zonedDateTime.getMinute() + " UTC || Status: " + loginSuccess);
     }
 
-    public static void errorAlert(String contentText) {
+    /** This method will create an error alert dialog box. The alert will be in French or English depending on user's language settings.
+     @param contentText The error alert information text.
+     */
+    public static void loginErrorAlert(String contentText) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Main.MessagesBundle");
         Alert alert;
         alert = new Alert(Alert.AlertType.ERROR);
@@ -175,26 +201,19 @@ public class LogInScreen implements Initializable {
         alert.showAndWait();
     }
 
-    public static void appointmentAlert(String contentText) {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Alert");
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
-
-
+    /** This is the initialize method for the Log-In form.
+     The location label text is initialized to show the user's time zone. All button text and prompt text is set to be in French or English depending on user's language settings.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         locationLabel.setText(ZoneId.systemDefault().toString());
+
         ResourceBundle resourceBundle1 = ResourceBundle.getBundle("Main.MessagesBundle");
+
         logInButton.setText(resourceBundle1.getString("Submit"));
         usernameField.setPromptText(resourceBundle1.getString("Username"));
         passwordField.setPromptText(resourceBundle1.getString("Password"));
         currentLocationLabel.setText(resourceBundle1.getString("CurrentLocation"));
         loginLabel.setText(resourceBundle1.getString("LOGIN"));
     }
-
-
 }

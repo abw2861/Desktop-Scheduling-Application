@@ -4,38 +4,45 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateAppointment">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #256D85;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateAppointment">
     <children>
-        <AnchorPane layoutX="270.0" layoutY="97.0" prefHeight="549.0" prefWidth="669.0" style="-fx-background-color: #d9d4d4;">
+        <AnchorPane layoutX="279.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="605.0" prefWidth="669.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <TextField fx:id="titleField" layoutX="201.0" layoutY="91.0" prefHeight="36.0" prefWidth="252.0" promptText="Title" />
-                <TextField fx:id="descriptionField" layoutX="201.0" layoutY="145.0" prefHeight="36.0" prefWidth="252.0" promptText="Description" />
-                <TextField fx:id="locationField" layoutX="201.0" layoutY="200.0" prefHeight="36.0" prefWidth="252.0" promptText="Location" />
-                <TextField fx:id="typeField" layoutX="201.0" layoutY="257.0" prefHeight="36.0" prefWidth="252.0" promptText="Type" />
-                <ComboBox fx:id="contactComboBox" layoutX="265.0" layoutY="427.0" prefHeight="27.0" prefWidth="139.0" promptText="Contact" />
-                <DatePicker fx:id="datePicker" layoutX="201.0" layoutY="309.0" prefHeight="27.0" prefWidth="252.0" promptText="Date" />
-                <ComboBox fx:id="customerComboBox" layoutX="201.0" layoutY="44.0" prefHeight="27.0" prefWidth="252.0" promptText="Customer" />
-                <ComboBox fx:id="startHourComboBox" layoutX="275.0" layoutY="346.0" prefHeight="27.0" prefWidth="77.0" promptText="Hour" />
-                <ComboBox fx:id="startMinComboBox" layoutX="362.0" layoutY="346.0" prefHeight="27.0" prefWidth="70.0" promptText="Min" />
-                <ComboBox fx:id="endHourComboBox" layoutX="275.0" layoutY="378.0" prefHeight="27.0" prefWidth="77.0" promptText="Hour" />
-                <ComboBox fx:id="endMinComboBox" layoutX="362.0" layoutY="378.0" prefHeight="27.0" prefWidth="70.0" promptText="Min" />
-                <Label layoutX="201.0" layoutY="350.0" text="Start Time" />
-                <Label layoutX="204.0" layoutY="382.0" text="End Time" />
-                <ComboBox fx:id="userComboBox" layoutX="265.0" layoutY="468.0" prefHeight="27.0" prefWidth="139.0" promptText="User" />
-            <TextField fx:id="appIdField" editable="false" layoutX="352.0" layoutY="508.0" prefHeight="19.0" prefWidth="54.0" />
-            <Label layoutX="229.0" layoutY="512.0" text="Appointment ID" />
-            <Label layoutX="139.0" layoutY="100.0" prefHeight="19.0" prefWidth="34.0" text="Title" />
-            <Label layoutX="117.0" layoutY="154.0" prefHeight="19.0" prefWidth="77.0" text="Description" />
-            <Label layoutX="125.0" layoutY="209.0" text="Location" />
-            <Label layoutX="132.0" layoutY="262.0" text="Type" />
-            <Label layoutX="133.0" layoutY="313.0" text="Date" />
+                <TextField fx:id="titleField" layoutX="188.0" layoutY="110.0" prefHeight="36.0" prefWidth="252.0" promptText="Title" />
+                <TextField fx:id="descriptionField" layoutX="188.0" layoutY="164.0" prefHeight="36.0" prefWidth="252.0" promptText="Description" />
+                <TextField fx:id="locationField" layoutX="188.0" layoutY="219.0" prefHeight="36.0" prefWidth="252.0" promptText="Location" />
+                <TextField fx:id="typeField" layoutX="188.0" layoutY="273.0" prefHeight="36.0" prefWidth="252.0" promptText="Type" />
+                <ComboBox fx:id="contactComboBox" layoutX="244.0" layoutY="454.0" prefHeight="27.0" prefWidth="139.0" promptText="Contact" />
+                <DatePicker fx:id="datePicker" layoutX="188.0" layoutY="323.0" prefHeight="27.0" prefWidth="252.0" promptText="Date" />
+                <ComboBox fx:id="customerComboBox" layoutX="188.0" layoutY="62.0" prefHeight="27.0" prefWidth="252.0" promptText="Customer" />
+                <ComboBox fx:id="startHourComboBox" layoutX="260.0" layoutY="369.0" prefHeight="27.0" prefWidth="77.0" promptText="Hour" />
+                <ComboBox fx:id="startMinComboBox" layoutX="348.0" layoutY="369.0" prefHeight="27.0" prefWidth="70.0" promptText="Min" />
+                <ComboBox fx:id="endHourComboBox" layoutX="260.0" layoutY="405.0" prefHeight="27.0" prefWidth="77.0" promptText="Hour" />
+                <ComboBox fx:id="endMinComboBox" layoutX="348.0" layoutY="405.0" prefHeight="27.0" prefWidth="70.0" promptText="Min" />
+                <Label layoutX="188.0" layoutY="373.0" text="Start Time" />
+                <Label layoutX="190.0" layoutY="409.0" text="End Time" />
+                <ComboBox fx:id="userComboBox" layoutX="244.0" layoutY="497.0" prefHeight="27.0" prefWidth="139.0" promptText="User" />
+            <TextField fx:id="appIdField" editable="false" layoutX="335.0" layoutY="544.0" prefHeight="19.0" prefWidth="54.0" />
+            <Label layoutX="229.0" layoutY="548.0" text="Appointment ID" />
+            <Label layoutX="131.0" layoutY="119.0" prefHeight="19.0" prefWidth="34.0" text="Title" />
+            <Label layoutX="109.0" layoutY="173.0" prefHeight="19.0" prefWidth="77.0" text="Description" />
+            <Label layoutX="123.0" layoutY="228.0" text="Location" />
+            <Label layoutX="136.0" layoutY="282.0" text="Type" />
+            <Label layoutX="137.0" layoutY="327.0" text="Date" />
+              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="203.0" layoutY="14.0" prefHeight="36.0" prefWidth="222.0" text="Update Appointment">
+               <font>
+                  <Font name="SansSerif Regular" size="21.0" />
+               </font>
+            </Label>
+              <Button layoutX="538.0" layoutY="561.0" mnemonicParsing="false" onAction="#onSave" style="-fx-background-color: #256D85;" text="Save" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+              <Button layoutX="593.0" layoutY="561.0" mnemonicParsing="false" onAction="#onCancel" style="-fx-background-color: #256D85;" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
             </children></AnchorPane>
         <ButtonBar layoutX="27.0" layoutY="77.0" prefHeight="40.0" prefWidth="200.0" />
-        <Button layoutX="970.0" layoutY="648.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
-        <Button layoutX="1067.0" layoutY="648.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="493.0" layoutY="26.0" prefHeight="36.0" prefWidth="222.0" text="Update Appointment">
-         <font>
-            <Font name="SansSerif Bold" size="21.0" />
-         </font></Label>
     </children>
 </AnchorPane>
