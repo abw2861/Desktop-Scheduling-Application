@@ -75,6 +75,7 @@ public class AddAppointment implements Initializable {
             int userId = userComboBox.getSelectionModel().getSelectedItem().getUserId();
             int contactId = contactComboBox.getSelectionModel().getSelectedItem().getContactId();
 
+
             //Get local date time from date picker and combo boxes
             LocalDateTime startDateTime = LocalDateTime.of(appDateLocal.getYear(), appDateLocal.getMonth(), appDateLocal.getDayOfMonth(), Integer.parseInt(startHour), Integer.parseInt(startMin));
             LocalDateTime endDateTime = LocalDateTime.of(appDateLocal.getYear(), appDateLocal.getMonth(), appDateLocal.getDayOfMonth(), Integer.parseInt(endHour), Integer.parseInt(endMin));
@@ -123,8 +124,10 @@ public class AddAppointment implements Initializable {
                 }
             }
 
-            //Check against business hours, appointment overlap and start time before end time
-            if (estStartDateTime.isBefore(zoneEBS)) {
+            //Check against business hours, appointment overlap and start time before end time; check for empty fields
+            if (appTitle.isEmpty() || appDescription.isEmpty() || appLocation.isEmpty() || appType.isEmpty()) {
+                Alerts.errorAlert("Fields may not be left blank.");
+            } else if (estStartDateTime.isBefore(zoneEBS)) {
                 Alerts.errorAlert("Appointment cannot be scheduled before 8:00 AM EST.");
             } else if (estEndDateTime.isAfter(zoneEBE)) {
                 Alerts.errorAlert("Appointment cannot end after 10:00 PM EST.");
@@ -142,8 +145,8 @@ public class AddAppointment implements Initializable {
                 stage.setScene(scene);
                 stage.show();
             }
-        } catch (NullPointerException e) {
-            Alerts.errorAlert("Fields cannot be left blank.");
+        } catch (NullPointerException | NumberFormatException e) {
+            Alerts.errorAlert("No fields may be left blank. ");
         }
     }
 

@@ -55,8 +55,8 @@ public class UpdateCustomer implements Initializable {
         divisionComboBox.setValue(customerToUpdate.getCustomerDivision());
         countryComboBox.setValue(customerToUpdate.getCustomerDivision().getCountry());
 
-        int countryIdTest = customerToUpdate.getCustomerDivision().getCountry().getCountryId();
-        divisionsList = Query.getDivisions(countryIdTest);
+        int countryId = customerToUpdate.getCustomerDivision().getCountry().getCountryId();
+        divisionsList = Query.getDivisions(countryId);
         divisionComboBox.setItems(divisionsList);
     }
 
@@ -65,11 +65,9 @@ public class UpdateCustomer implements Initializable {
      @param actionEvent A country is selected.
       */
     public void onSelectCountry(ActionEvent actionEvent) throws SQLException {
-            int countryIdTest = customerToUpdate.getCustomerDivision().getCountry().getCountryId();
             int countryId = countryComboBox.getSelectionModel().getSelectedItem().getCountryId();
             divisionComboBox.setValue(null);
             divisionComboBox.setItems(Query.getDivisions(countryId));
-            System.out.println(countryIdTest);
     }
 
     /** This method will update a customer record in the database and then redirect user back to Customer Records form.
@@ -83,14 +81,18 @@ public class UpdateCustomer implements Initializable {
             customerToUpdate.setPhone(customerPhoneField.getText());
             customerToUpdate.setCustomerDivision(divisionComboBox.getSelectionModel().getSelectedItem());
 
-            Query.updateCustomer(customerToUpdate);
+            if (customerNameField.getText().isEmpty() || customerAddressField.getText().isEmpty() || customerPostalField.getText().isEmpty() || customerPhoneField.getText().isEmpty()) {
+                Alerts.errorAlert("No fields may be left blank. ");
+            } else {
+                Query.updateCustomer(customerToUpdate);
 
-            Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 1200.0, 720.0);
-            stage.setTitle("Customer Records");
-            stage.setScene(scene);
-            stage.show();
+                Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root, 1200.0, 720.0);
+                stage.setTitle("Customer Records");
+                stage.setScene(scene);
+                stage.show();
+            }
         } catch (NullPointerException e) {
             Alerts.errorAlert("Fields cannot be left blank. ");
         }

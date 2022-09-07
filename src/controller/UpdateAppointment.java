@@ -183,8 +183,10 @@ public class UpdateAppointment implements Initializable {
             LocalDateTime estBusEnd = LocalDateTime.of(localAppDate.getYear(), localAppDate.getMonth(), localAppDate.getDayOfMonth(), 22, 0);
             ZonedDateTime zoneEBE = estBusEnd.atZone(ZoneId.of("America/New_York"));
 
-            //Logical checks for appointment overlap, business hours, start time before end time
-            if (estStartDateTime.isBefore(zoneEBS)) {
+            //Logical checks for appointment overlap, business hours, start time before end time; check blank fields
+            if (typeField.getText().isEmpty() || descriptionField.getText().isEmpty()|| locationField.getText().isEmpty() || titleField.getText().isEmpty()) {
+                Alerts.errorAlert("Fields may not be left blank.");
+            } else if (estStartDateTime.isBefore(zoneEBS)) {
                 Alerts.errorAlert("Appointment cannot be scheduled before 8:00 AM EST.");
             } else if (estEndDateTime.isAfter(zoneEBE)) {
                 Alerts.errorAlert("Appointment cannot end after 10:00 PM EST.");
@@ -202,7 +204,7 @@ public class UpdateAppointment implements Initializable {
                 stage.setScene(scene);
                 stage.show();
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             Alerts.errorAlert("Fields cannot be left blank.");
         }
     }

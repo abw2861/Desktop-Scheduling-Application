@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.Locale;
 
 /** This is the Main class. */
 public class Main extends Application {
@@ -24,7 +25,6 @@ public class Main extends Application {
 
     /** This method launches the application and open/closes the database connection. */
     public static void main(String[] args) throws SQLException {
-        //Locale.setDefault(new Locale("fr"));
         JDBC.openConnection();
         launch(args);
         JDBC.closeConnection();

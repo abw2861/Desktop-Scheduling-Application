@@ -129,8 +129,8 @@ public class CustomerRecordsScreen implements Initializable {
 
     /** This is the initialize method for the Customer Records form.
       The tableview is populated with list of customers. Simple button functionality is added.
-      <b> Lambda expression used to populate the data in the appropriate columns.
-      Lambda expression used to add button functionality to load new pages and exit the application. This helped to reduce the amount of redundant code and the need for an additional method creation.
+      <b> Lambda expression used to populate the data in the appropriate columns. This allows me to get the column data directly from the customer object.
+      Lambda expression used to add button functionality to load new pages and exit the application. This helped to reduce the amount of redundant code and by eliminating the need for multiple different methods.
       </b>
      */
     @Override

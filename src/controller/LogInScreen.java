@@ -100,11 +100,10 @@ public class LogInScreen implements Initializable {
                     }
                 }
             }
-
-            if (hasUpcomingAppointment){
-                Alerts.informationAlert("You have an upcoming appointment: \n\nAppointment ID: " + upcomingAppId + "\n" + "Date: " + upcomingAppStart.getYear() + "-" + upcomingAppStart.getMonth() + "-" + upcomingAppStart.getDayOfMonth() +
-                "\nTime: " + upcomingAppStart.getHour() + ":" + displayMinutes(upcomingAppStart));
-            }
+            if (hasUpcomingAppointment) {
+                    Alerts.informationAlert("You have an upcoming appointment: \n\nAppointment ID: " + upcomingAppId + "\n" + "Date: " + upcomingAppStart.getYear() + "-" + upcomingAppStart.getMonth() + "-" + upcomingAppStart.getDayOfMonth() +
+                            "\nTime: " + upcomingAppStart.getHour() + ":" + displayMinutes(upcomingAppStart));
+                }
             else {
                 Alerts.informationAlert("You have no upcoming appointments.");
             }
@@ -160,6 +159,7 @@ public class LogInScreen implements Initializable {
                 stage.show();
 
                 successfulLogin = "Successful";
+
 
                 upcomingApt();
 

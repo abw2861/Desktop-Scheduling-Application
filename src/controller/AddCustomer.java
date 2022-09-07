@@ -47,14 +47,18 @@ public class AddCustomer implements Initializable {
             String customerPhone = customerPhoneField.getText();
             int divisionId = divisionComboBox.getSelectionModel().getSelectedItem().getDivisionId();
 
-            Query.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhone, divisionId);
+            if (customerNameField.getText().isEmpty() || customerAddressField.getText().isEmpty() || customerPostalField.getText().isEmpty() || customerPhoneField.getText().isEmpty()) {
+                Alerts.errorAlert("No fields may be left blank. ");
+            } else {
+                Query.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhone, divisionId);
 
-            Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 1200.0, 720.0);
-            stage.setTitle("Customer Records");
-            stage.setScene(scene);
-            stage.show();
+                Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root, 1200.0, 720.0);
+                stage.setTitle("Customer Records");
+                stage.setScene(scene);
+                stage.show();
+            }
         } catch (NullPointerException e) {
             Alerts.errorAlert("Fields cannot be blank.");
         }

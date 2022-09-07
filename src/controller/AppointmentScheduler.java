@@ -133,7 +133,7 @@ public class AppointmentScheduler implements Initializable {
             Optional<ButtonType> results = alert.showAndWait();
             if (results.isPresent() && results.get() == ButtonType.YES) {
                 Query.deleteAppointmentById(appointment.getAppointmentId());
-                Alerts.confirmationAlert("Appointment #" + appointment.getAppointmentId() + ": " + appointment.getAppType() + " has been cancelled.");
+                Alerts.confirmationAlert("'Appointment #" + appointment.getAppointmentId() + ": " + appointment.getAppType() + "' has been cancelled.");
             }
             appointmentsList.clear();
             appointmentsList.addAll(Query.getCustomerAppointments());
@@ -161,7 +161,7 @@ public class AppointmentScheduler implements Initializable {
     /** This is the initialize method for the Appointment Scheduler form.
      The tableview is populated with list of appointments. Simple button functionality is added.
      <b> Lambda expression used to populate the data in the appropriate columns.
-     Lambda expression used to add button functionality to load new pages. This helped to reduce the amount of redundant code.
+     Lambda expression used to add button functionality to load new pages. This helped to reduce the amount of redundant code by eliminating the need to create multiple methods.
      </b>
      */
     @Override
