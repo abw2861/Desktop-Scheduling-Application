@@ -40,8 +40,20 @@ public class LogInScreen implements Initializable {
     public Label loginLabel;
     public ObservableList<Appointment> appointmentsListByUser = FXCollections.observableArrayList();
     public ObservableList<User> usersList = FXCollections.observableArrayList();
-
     PreparedStatement preparedStatement = null;
+    private static final Logger log = Logger.getLogger("login_activity.txt");
+
+    static {
+        try {
+            FileHandler fileHandler = new FileHandler("login_activity.txt",true);
+            SimpleFormatter simpleFormatter = new SimpleFormatter();
+            fileHandler.setFormatter(simpleFormatter);
+            log.addHandler(fileHandler);
+        } catch (IOException | SecurityException e) {
+            Logger.getLogger(LogInScreen.class.getName()).log(Level.SEVERE, null, e);
+        }
+        log.setLevel(Level.INFO);
+    }
 
     /** This method validates that a username and password combo are correct.
      If there is a username and password combination match in the database, the method will return true.
@@ -151,6 +163,8 @@ public class LogInScreen implements Initializable {
                 loginErrorAlert("IncorrectUsernameOrPassword");
                 successfulLogin = "Unsuccessful";
             } else {
+                successfulLogin = "Successful";
+
                 Parent root = FXMLLoader.load(this.getClass().getResource("/view/CustomerRecords.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root, 1200.0, 720.0);
@@ -158,36 +172,13 @@ public class LogInScreen implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
-                successfulLogin = "Successful";
-
-
                 upcomingApt();
-
             }
-            //Logger method called
-            logger(userName, utcTime, successfulLogin);
+            //Logger
+            log.log(Level.INFO, "Log-In Attempt -> Username: " + userName + " || Date: " + utcTime.getYear()+ "-" + utcTime.getMonth() + "-" + utcTime.getDayOfMonth() + " || Time: " + utcTime.getHour() + ":" + utcTime.getMinute() + " UTC || Status: " + successfulLogin);
     }
 
-    /** This method creates the logger for log in activity.
-     @param userName The username entered
-     @param loginSuccess String output for successful or unsuccessful log in
-     @param zonedDateTime Time of log in attempt in UTC
-     */
-    public void logger (String userName, ZonedDateTime zonedDateTime, String loginSuccess) {
-        Logger log = Logger.getLogger("login_activity.txt");
 
-        try {
-            FileHandler fileHandler = new FileHandler("login_activity.txt", true);
-            SimpleFormatter simpleFormatter = new SimpleFormatter();
-            fileHandler.setFormatter(simpleFormatter);
-            log.addHandler(fileHandler);
-        } catch (IOException | SecurityException e) {
-            Logger.getLogger(LogInScreen.class.getName()).log(Level.INFO, null, e);
-        }
-
-        log.setLevel(Level.INFO);
-        log.info("Log-In Attempt -> Username: " + userName + " || Date: " + zonedDateTime.getYear()+ "-" + zonedDateTime.getMonth() + "-" + zonedDateTime.getDayOfMonth() + " || Time: " + zonedDateTime.getHour() + ":" + zonedDateTime.getMinute() + " UTC || Status: " + loginSuccess);
-    }
 
     /** This method will create an error alert dialog box. The alert will be in French or English depending on user's language settings.
      @param contentText The error alert information text.

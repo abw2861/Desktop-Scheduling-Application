@@ -133,10 +133,6 @@ public class UpdateAppointment implements Initializable {
             ZonedDateTime zonedStartDateTime = startDateTime.atZone(ZoneId.systemDefault());
             ZonedDateTime zonedEndDateTime = endDateTime.atZone(ZoneId.systemDefault());
 
-            //System default to UTC time
-            ZonedDateTime utcStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneOffset.UTC);
-            ZonedDateTime utcEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneOffset.UTC);
-
             //System default to EST time
             ZonedDateTime estStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
             ZonedDateTime estEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
@@ -144,8 +140,8 @@ public class UpdateAppointment implements Initializable {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             //Get timestamps in UTC
-            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcStartDateTime));
-            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcEndDateTime));
+            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(zonedStartDateTime));
+            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(zonedEndDateTime));
 
             appointmentToUpdate.setAppDescription(descriptionField.getText());
             appointmentToUpdate.setAppLocation(locationField.getText());

@@ -63,22 +63,14 @@ public abstract class Query {
             String appLocation = resultSet.getString("Location");
             String appType = resultSet.getString("Type");
 
-            //Convert UTC start time from database to system default zoned time
             Timestamp startTime = resultSet.getTimestamp("Start");
             LocalDateTime localStartTime = startTime.toLocalDateTime();
-            ZonedDateTime zonedStartTime = localStartTime.atZone(ZoneId.of("UTC"));
-            ZonedDateTime zonedStartToLocalStart = zonedStartTime.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
-            LocalDateTime localStartTimeFinal = zonedStartToLocalStart.toLocalDateTime();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localStartTimeFinal));
+            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localStartTime));
 
-            //Convert UTC end time from database to system default zoned time
             Timestamp endTime = resultSet.getTimestamp("End");
             LocalDateTime localEndTime = endTime.toLocalDateTime();
-            ZonedDateTime zonedEndTime = localEndTime.atZone(ZoneId.of("UTC"));
-            ZonedDateTime zonedEndToLocalEnd = zonedEndTime.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
-            LocalDateTime localEndTimeFinal = zonedEndToLocalEnd.toLocalDateTime();
-            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localEndTimeFinal));
+            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localEndTime));
 
             int customerId = resultSet.getInt("Customer_ID");
             int userId = resultSet.getInt("User_ID");
@@ -315,19 +307,13 @@ public abstract class Query {
 
             Timestamp startTime = resultSet.getTimestamp("Start");
             LocalDateTime localStartTime = startTime.toLocalDateTime();
-            ZonedDateTime zonedStartTime = localStartTime.atZone(ZoneId.of("UTC"));
-            ZonedDateTime zonedStartToLocalStart = zonedStartTime.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
-            LocalDateTime localStartTimeFinal = zonedStartToLocalStart.toLocalDateTime();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localStartTimeFinal));
+            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localStartTime));
 
 
             Timestamp endTime = resultSet.getTimestamp("End");
             LocalDateTime localEndTime = endTime.toLocalDateTime();
-            ZonedDateTime zonedEndTime = localEndTime.atZone(ZoneId.of("UTC"));
-            ZonedDateTime zonedEndToLocalEnd = zonedEndTime.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
-            LocalDateTime localEndTimeFinal = zonedEndToLocalEnd.toLocalDateTime();
-            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localEndTimeFinal));
+            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(localEndTime));
 
             int customerId = resultSet.getInt("Customer_ID");
             int userId = resultSet.getInt("User_ID");

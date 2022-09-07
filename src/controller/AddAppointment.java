@@ -23,6 +23,7 @@ import model.User;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -84,19 +85,14 @@ public class AddAppointment implements Initializable {
             ZonedDateTime zonedStartDateTime = startDateTime.atZone(ZoneId.systemDefault());
             ZonedDateTime zonedEndDateTime = endDateTime.atZone(ZoneId.systemDefault());
 
-            //Convert from system default to UTC
-            ZonedDateTime utcStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneOffset.UTC);
-            ZonedDateTime utcEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneOffset.UTC);
-
             //Convert from system default to EST
             ZonedDateTime estStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
             ZonedDateTime estEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            //Get appointment timestamps in UTC
-            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcStartDateTime));
-            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(utcEndDateTime));
+            Timestamp startTimestamp = Timestamp.valueOf(dateTimeFormatter.format(zonedStartDateTime));
+            Timestamp endTimestamp = Timestamp.valueOf(dateTimeFormatter.format(zonedEndDateTime));
 
             //Set opening and closing business hours 8am & 10pm EST
             LocalDateTime estBusStart = LocalDateTime.of(appDateLocal.getYear(), appDateLocal.getMonth(), appDateLocal.getDayOfMonth(), 8, 0);
